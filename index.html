@@ -10,14 +10,15 @@
     <h1>ThomasDeWierdo</h1>
     <h2>Technical Systems Programmer</h2>
     <p>
-      Hello! My name is Thomas, I am 17 years old, and I specialize in making reusable architecture, complex systems, and development tools. 
-      I enjoy creating things to shorten development time, simplify complex tasks, and minimize repeated work as much as possible without sacrificing performance.      
+        Hello! My name is Thomas, I am 17 years old, and I specialize in making reusable architecture, complex systems, and development tools. 
+      I enjoy creating things to shorten development time, simplify complex tasks, and minimize repeated work as much as possible.      
+      Optimization and versatility is also a high priority for me - I like to automate things without limiting the designer or sacrificing performance.
       I also have quite a bit of general skills in most parts of game development that you may find useful on top of my specialty.
       I have never worked in a team setting before, but I am excited to soon make that transition.
     </p>
     <h2>Education</h2>
     <p>
-      I do not have any college degrees or formal education on this topic, however, I have been creating games in Unity for over 5 years, 
+        I do not have any college degrees or formal education on this topic, however, I have been creating games in Unity for over 5 years, 
       graduated high school at 15 years old, and have been programming in general for around 7 years.
     </p>
     <h2>My Skills</h2>
@@ -32,4 +33,46 @@
     <p><b>Modding</b> - Working with unfamiliar codebases, Modding my own ideas into existing games using BepInEx </p>
     <p><b>Misc Art</b> - Pixel art, 3d modeling </p>
     <p><b>Github</b> - Very basic knowledge on how collaborative settings work with github </p>
+
+    <h2>Perastra</h2>
+    <p>
+        Perastra is a game that I have been working on for over 3 years now, and I have improved a lot from the challenges and systems I've created for it.
+      The art style of Perastra is similar to Terraria, and the main gameplay focus is to use your creativity to come up with solutions to fight bosses,
+      traverse the planet, maximize efficiency, or whatever you can think of. There is also a mechanical system that I would say is similar to the
+      building system in the game Scrap Mechanic, that allows you to create machines, cars, planes, robots, and much more. The mechanical system isn't
+      fully done yet, but it in conjunction with another that I've created can make this game truly unique and stand out in the sea of indie games:
+    </p>
+    <h2>The Brain System</h2>
+    <p>
+        This is the most interesting of the systems I've made for Perastra, and it is essentially a neural network that aims to mimic the brain of real
+      animals as closely as possible, using hormones like dopamine, adrenaline, cortisol, and organizing the data in a way very similar to real brains,
+      all while still keeping it performant enough for anybody to run it on their own computer. This originally started as a way to automate the process
+      of creating separate AI for every creature and giving some organicness to each creature's behavior, but it turned into something that I've never seen
+      in another game, and drastically changes how you play the game. Enemies can adapt to what you're doing, or run if they know they can't beat you. 
+      In most games, you have to predict what the enemy will do next; in this game, you have to know what the enemy can't do, and act in a way to
+      avoid any unpredictable actions. It's almost like all the creatures are controlled by other people, all playing a different game with different goals.
+      Now I should say that this system isn't done, however it does work. The main thing is that I've only recently found out how brains reason, so I still
+      need to implement that. I already know how to do so and have planned the architecture, but I've been focusing on other systems so I haven't yet.
+      The main difference that the change will make is it will be able to actually plan and think ahead, and form new conclusions from past experience
+      much more easily.
+      
+        Above is a video of the brain system at work (sped up 10x). All I've done to implement this brain into the test creature is to give it sensory input,
+      motor output, and drives. You can see that at
+        Sensory inputs are just simple functions that return float values ranging from 0 to 1 (I call them Float01 values).
+      In this case, I had 3 sensory inputs for vision, and 2 inputs for the direction of the target position. You can have as many sensory inputs as you want,
+      I have no idea how well it will be able to process a lot of them though. I will definitely be testing something like full color vision once I make
+      the changes I described earlier to the system. 
+        Then the motor outputs are just simple functions that take in Float01 values. The brain system, through
+      its Float01 values as input, will reason and find corresponding Float01 values for outputs. These output values are just plugged directly into
+      the motor outputs functions you provide it. In this case, I just had walk and jump outputs. I was able to manipulate one Float01 value to allow it
+      to move either left or right with only a single output value. You can also have as many motor outputs as you want, it just will take longer to
+      learn with more values to think of. 
+        Then, the final components are the drives. Drives give rewards when they are raised and punishments when they are lowered. These can also be made 
+      with simple functions that just return a simple 'fulfillment' float value. Then the drives modify the levels of dopamine and other neuromodulators 
+      automatically depending on how the fulfillment value changes. In this test, I had two drives: one that raises when it goes closer to the target point,
+      and one that acts as an energy that lowers when the creature jumps. The second drive prevents the creature from constantly jumping, as it learns that
+      to maximize happiness, it should find the route to the target point with the fewest amount of jumps possible.
+        This general architecture also means it wouldn't be very difficult to implement this in any game I want. I would love to try to mod another game 
+      in the future and implement this system in its creatures.
+    </p>
 </html>
