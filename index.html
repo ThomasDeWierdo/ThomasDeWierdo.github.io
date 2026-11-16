@@ -3,23 +3,18 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>ThomasDeWierdo's Portfolio</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <h1>ThomasDeWierdo</h1>
     <h2>Technical Systems Programmer</h2>
     <p>
-      &emsp;Hello! My name is Thomas, I am 17 years old, and I specialize in making reusable architecture, complex systems, and development tools. 
-      I enjoy creating things to shorten development time, simplify complex tasks, and minimize repeated work as much as possible.      
-      Optimization and versatility is also a high priority for me - I like to automate things without limiting the designer or sacrificing performance.
-      I also have quite a bit of general skills in most parts of game development that you may find useful on top of my specialty.
-      I have never worked in a team setting before, but I am excited to soon make that transition.
+      &emsp;Hello! My name is Thomas, I am 17 years old, and I specialize in making reusable architecture, complex systems, and development tools. I enjoy creating things to shorten development time, simplify complex tasks, and minimize repeated work as much as possible. Optimization and versatility is also a high priority for me - I like to automate things without limiting the designer or sacrificing performance. I also have quite a bit of general skills in most parts of game development that you may find useful on top of my specialty. I have never worked in a team setting before, but I am excited to soon make that transition.
     </p>
     <h2>Education</h2>
     <p>
-      &emsp;I do not have any college degrees or formal education on this topic, however, I have been creating games in Unity for over 5 years, 
-      graduated high school at 15 years old, and have been programming in general for around 7 years.
+      &emsp;I do not have any college degrees or formal education on this topic, however, I have been creating games in Unity for over 5 years, graduated high school at 15 years old, and have been programming in general for around 7 years.
     </p>
     <h2>My Skills</h2>
     <p><b>Programming</b> - C#, Object-oriented programming, Data-oriented programming, Algorithms, Optimization</p>
@@ -63,8 +58,77 @@
     <h2>World Generation System</h2>
     <p>
       &emsp;This system I think shows how my capability to create simple, yet versatile systems to speed up the design process without making more obscure mechanics harder to implement.
-      <br>&emsp;The world generation system is one of my newer systems, and my main goal for this was to make it as quick and simple as possible to create new biomes, and make the code required to design a biome as readable as I possible. Since it's new, I've only created one biome using it, but it has worked pretty well. Here is the code used to design the Onimellow Forest biome:
-      
+      <br>&emsp;The world generation system is one of my newer systems, and my main goal for this was to make it as quick and simple as possible to create new biomes, and make the code required to design a biome as readable as I possible. Since it's new, I've only created one biome using it, but it has worked pretty well.
+      <details>
+        <summary>This is the code that designs the generation for the Onimellow Forest.</summary>
+        <pre><code class="language-csharp">
+public class OnimellowForest_WorldGen : WorldGen
+{
+    static PerlinNoiseVertical1D WallCutoff = new(min: 0, max: 5, scale: 5);
+    static PerlinNoiseHorizontal1D SurfaceCutoff = new(min: 5, max: 20, scale: 40);
+    static PerlinNoise2D CaveCutout = new(min: 0, max: 1, xScale: 20, yScale: 10);
+    static PerlinNoiseHorizontal1D ClimbooPlacement = new(min: -20, max: 5, scale: 10);
+
+    static StructurePlacer1D SurfaceForegroundStructures = new(placeEveryXChunks: 10, retryCount: 30,
+        structures: new StructureOption[] {
+            new(Structures.OnimellowTree, placeChance: 0.7f, leftPadding: 1, rightPadding: 1),
+            new(Structures.ClichMound, placeChance: 0.5f, leftPadding: 1, rightPadding: 1),
+            new(Structures.Climboo, placeChance: 0.5f, leftPadding: 1, rightPadding: 1) 
+        });
+
+    static StructurePlacer1D BackgroundClichMound = new(placeEveryXChunks: 10,
+        structures: new StructureOption[] {
+            new(Structures.ClichMound, placeChance: .2f, leftPadding: 3, rightPadding: 3)
+        });
+
+    const int onimellowTreeYOffset = -3;
+    const int clichMoundYOffset = -4;
+    const int climbooYOffset = -3;
+    const int backgroundClichMoundYOffset = -7;
+
+    public override WorldGenOutput Run(in WorldGenContext ctx, WorldGenOutput output)
+    {
+        float wallCutoff = WallCutoff[ctx];
+        if (wallCutoff >= GetDistanceFromBiomeLeft(ctx) || wallCutoff >= GetDistanceFromBiomeRight(ctx))
+            return output.OutOfBounds();
+
+        float surfaceCutoff = SurfaceCutoff[ctx];
+        if (ctx.y > surfaceCutoff)
+        {
+            output.SetIds(ItemId.Air);
+
+            if (BackgroundClichMound.FindOverlappingStructure(ctx, out var mound))
+            {
+                mound.y = Mathf.FloorToInt(Mathf.Min(SurfaceCutoff[mound.x], SurfaceCutoff[mound.x + mound.structure.Variants[mound.variant].Width])) + backgroundClichMoundYOffset;
+                output.Set(mound[ctx].Invert());
+            }
+
+            if (SurfaceForegroundStructures.FindOverlappingStructure(ctx, out mound))
+            {
+                int yOffset =
+                    mound.structure == Structures.OnimellowTree ? onimellowTreeYOffset :
+                    mound.structure == Structures.ClichMound ? clichMoundYOffset :
+                    climbooYOffset;
+                mound.y = Mathf.FloorToInt(Mathf.Min(SurfaceCutoff[mound.x], SurfaceCutoff[mound.x + mound.structure.Variants[mound.variant].Width])) + yOffset;
+                output.Set(mound[ctx]);
+            }
+
+            return output;
+        }
+
+        if (ctx.y > surfaceCutoff - 5)
+            return output.SetIds(ItemId.Clich);
+
+        output.frontBlock = ItemId.Murk;
+        if (CaveCutout[ctx] > 0.7f)
+            output.frontBlock = ItemId.Air;
+        output.backBlock = ItemId.Murk;
+
+        return output;
+    }
+}
+        </code></pre>
+      </details>
     </p>
   </body>
 </html>
