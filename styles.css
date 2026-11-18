@@ -61,3 +61,36 @@ p {
 .navbar a:hover {
     color: #aaaaaa;
 }
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    background-color: #222222;
+    min-width: 200px;
+
+    padding: 8px 0;
+    border-radius: 0 0 8px 8px;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #444444;
+}
