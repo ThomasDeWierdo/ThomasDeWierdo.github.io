@@ -81,6 +81,7 @@
       &emsp;This system I think shows how my capability to create simple, yet versatile systems to speed up the design process without making more obscure mechanics harder to implement.
       <br>&emsp;The world generation system is one of my newer systems, and my main goal for this was to make it as quick and simple as possible to create new biomes, and make the code required to design a biome as readable as I possible. Since it's new, I've only created one biome using it, but it has worked pretty well.
       <details>
+        <summary>This is the code that designs the generation for the Onimellow Forest biome.</summary>
         <pre><code class="language-csharp">public class OnimellowForest_WorldGen : WorldGen
 {
     static PerlinNoiseVertical1D WallCutoff = new(min: 0, max: 5, scale: 5);
