@@ -56,7 +56,7 @@
       <br>&emsp;The world generation system is one of my newer systems, and my main goal for this was to make it as quick and simple as possible to create new biomes, and make the code required to design a biome as readable as I possible. Since it's new, I've only created one biome using it, but it has worked pretty well.
     </p>
     <p><details><summary>This is the code that designs the generation for the Onimellow Forest biome.</summary>
-        <pre><code class="language-csharp" style="font-size: 0.5">public class OnimellowForest_WorldGen : WorldGen
+        <pre><code class="language-csharp" style="font-size: 0.5;">public class OnimellowForest_WorldGen : WorldGen
 {
     static PerlinNoiseVertical1D WallCutoff = new(min: 0, max: 5, scale: 5);
     static PerlinNoiseHorizontal1D SurfaceCutoff = new(min: 5, max: 20, scale: 40);
