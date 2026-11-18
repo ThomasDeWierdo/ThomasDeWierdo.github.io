@@ -94,3 +94,7 @@ p {
 .dropdown-content a:hover {
     background-color: #444444;
 }
+
+pre[class*="language-"],code[class*="language-"] {
+    font-size: 0.85em;
+}
