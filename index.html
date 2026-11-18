@@ -81,7 +81,6 @@
       &emsp;This system I think shows how my capability to create simple, yet versatile systems to speed up the design process without making more obscure mechanics harder to implement.
       <br>&emsp;The world generation system is one of my newer systems, and my main goal for this was to make it as quick and simple as possible to create new biomes, and make the code required to design a biome as readable as I possible. Since it's new, I've only created one biome using it, but it has worked pretty well.
       <details>
-        <summary>This is the code that designs the generation for the Onimellow Forest.</summary>
         <pre><code class="language-csharp">public class OnimellowForest_WorldGen : WorldGen
 {
     static PerlinNoiseVertical1D WallCutoff = new(min: 0, max: 5, scale: 5);
@@ -145,7 +144,8 @@
 
         return output;
     }
-}</code></pre></details>
+}</code></pre>
+      </details>
       <br>&emsp;I think the syntax that I've managed to create is pretty readable if you understand what it is trying to do. First off, if you don't know already, perlin noise is a type of function that takes in positional coordinates as input, then returns a number ranging from 0 to 1. The values are random, however, values very close together in coordinate space will return similar values. This means if you to create an image using the values returned from this function, you will get a smooth, organic pattern, which you can then manipulate to create organic world generation.
       <br><img src="https://en.wikipedia.org/wiki/File:Perlin_noise_example.png" alt="A visual representation of perlin noise" style="width: 300px; height: auto;">
       <br>&emsp;So, to design the Onimellow Forest, I first would create some noise and structure placer objects. The noise objects are reusable and optimized to return perlin noise values with a specified configuration. Then I also create structure placer objects, which automatically figure out the best placement of the given structures, ensuring that they don't overlap. Then, the actual Run function is called for every block that generates, where the given context (ctx) gives info on the position of the block, along with some other info. So, when it runs something like WallCutoff[ctx], it gets the noise value of that noise object at the given position. This allows me to return an out-of-bounds output if the block is outside of a noise wall, giving it a smoother transition to different biomes when it ends as an out-of-bounds output will cause it to run the code of the next overlapping biome at the position instead. 
