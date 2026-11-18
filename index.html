@@ -108,11 +108,11 @@
     public override WorldGenOutput Run(in WorldGenContext ctx, WorldGenOutput output)
     {
         float wallCutoff = WallCutoff[ctx];
-        if (wallCutoff >= GetDistanceFromBiomeLeft(ctx) || wallCutoff >= GetDistanceFromBiomeRight(ctx))
+        if (wallCutoff &gt;= GetDistanceFromBiomeLeft(ctx) || wallCutoff &gt;= GetDistanceFromBiomeRight(ctx))
             return output.OutOfBounds();
 
         float surfaceCutoff = SurfaceCutoff[ctx];
-        if (ctx.y > surfaceCutoff)
+        if (ctx.y &gt; surfaceCutoff)
         {
             output.SetIds(ItemId.Air);
 
@@ -135,11 +135,11 @@
             return output;
         }
 
-        if (ctx.y > surfaceCutoff - 5)
+        if (ctx.y &gt; surfaceCutoff - 5)
             return output.SetIds(ItemId.Clich);
 
         output.frontBlock = ItemId.Murk;
-        if (CaveCutout[ctx] > 0.7f)
+        if (CaveCutout[ctx] &gt; 0.7f)
             output.frontBlock = ItemId.Air;
         output.backBlock = ItemId.Murk;
 
