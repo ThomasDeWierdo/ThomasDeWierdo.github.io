@@ -52,7 +52,8 @@
 
     <h2>Tilemap and Autotiling Systems</h2>
     <p>
-      &emsp;Another feature that Unity does provide that I had to remake for performance concerns was the tilemap system. Unity's tilemap system would lag a lot when dynamically placing and removing tiles during runtime, so I made my own tilemap system instead. If you aren't sure, tilemaps display grid-based worlds by placing tiles on a world grid. Tilemaps also have autotiling features that allow tiles to dynamically change their texture to visually connect with the surrounding tiles. I explain more of how I accomplished this <a href="tilemapsystem.html">here</a>.
+      &emsp;Another feature that Unity does provide that I had to remake for performance concerns was the tilemap system. Unity's tilemap system would lag a lot when dynamically placing and removing tiles during runtime, so I made my own tilemap system instead. If you aren't sure, tilemaps display grid-based worlds by placing tiles on a world grid. Tilemaps also have autotiling features that allow tiles to dynamically change their texture to visually connect with the surrounding tiles. 
+      <br>&emsp;An annoying thing that I had to do while creating new blocks is that to create a texture for an autotiling block, I would have to make 63 variants to both cover every case for possible surrounding blocks, plus extras to give some random variation with placement textures. This took a while to make and was very boring to do. The autotiling system I made now includes a bunch of different options from autotiling techniques I came up with. There was one autotiling technique that I came up with that meant I only had to make a single tile size for a texture (10x10 pixels) and have it still be able to configure itself to tile with any possible surrounding tiles. I explain more of how I accomplished these tilemap and autotiling systems <a href="tilemapsystem.html">here</a>.
     </p>
 
     <h2>Story</h2>
@@ -60,7 +61,7 @@
 
     <h2>Final Notes</h2>
     <p>
-      &emsp;There are a ton of other features and systems I've made for Perastra, but 
+      &emsp;There are a ton of other features and systems I've made for Perastra, such as a 'graphical world system' that gives a clean interface for sending world data to the GPU, an 'item info system' that reads data for every block through json files and stores it all in a way that's easy and quick to access, an 'entity system' that makes it easy to design and summon creatures or miscellaneous entities, and much more. Thankfully I'm nearing the point where the internal systems are done so I can actually start designing things and making the game playable.
     </p>
   </body>
 </html>
