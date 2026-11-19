@@ -109,11 +109,15 @@ pre[class*="language-"] {
     position: relative; 
     top: -12px; 
     left: 15px; 
+    font-size: 18px;
     letter-spacing: 1px;
 }
 .project-card p:not(:first-child) {
     text-align: right;
     position: relative;
+    top: -12px; 
+    right: 15px; 
+    font-size: 18px;
     letter-spacing: 1px;
 }
 .project-card div {
