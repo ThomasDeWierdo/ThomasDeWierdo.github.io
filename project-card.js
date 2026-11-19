@@ -6,18 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const image = card.dataset.image;
         const link = card.dataset.link;
 
-        card.innerHTML = `<a href="${link}" style="text-decoration: none;"></a>
+        card.innerHTML = `<a href="${link}" style="text-decoration: none;">
             <div class="project-card">
-            <image src="${image}"></image>
-            <div></div>
-            <div>
-                <p><b>${title}</b></p>
-                <p><b>${category}</b></p>
-            </div>
-            <div>
-                <p><b>${description}</b></p>
-            </div>
-            <div></div>
+                <image src="${image}"></image>
+                <div></div>
+                <div>
+                    <p><b>${title}</b></p>
+                    <p><b>${category}</b></p>
+                </div>
+                <div>
+                    <p><b>${description}</b></p>
+                </div>
+                <div></div>
             </div>
         </a>`;
     })
