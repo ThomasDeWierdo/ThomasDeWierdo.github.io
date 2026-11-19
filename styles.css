@@ -95,6 +95,6 @@ p {
     background-color: #444444;
 }
 
-pre[class*="language-"],code[class*="language-"] {
+pre[class*="language-"] {
     font-size: 0.85em;
 }
