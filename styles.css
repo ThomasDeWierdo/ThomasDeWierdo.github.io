@@ -107,18 +107,22 @@ pre[class*="language-"] {
 }
 .project-card p:first-child {
     position: relative; 
-    top: -12px; 
+    top: -15px; 
     left: 15px; 
     font-size: 18px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    color: #aaa;
+    font-weight: 600px;
 }
 .project-card p:not(:first-child) {
     text-align: right;
     position: relative;
-    top: -12px; 
+    top: -14px; 
     right: 15px; 
     font-size: 18px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    color: #555;
+    font-weight: 500px;
 }
 .project-card div {
     display: flex;
