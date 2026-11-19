@@ -99,3 +99,10 @@ pre[class*="language-"] {
     font-size: 0.8em !important;
     border-radius: 8px !important;
 }
+
+.project {
+    background-color: #222222;
+    border-radius: 12px;
+    width: 300px;
+    height: 300px;
+}
