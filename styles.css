@@ -105,3 +105,9 @@ pre[class*="language-"] {
     padding-top: 15px; 
     object-fit: cover;
 }
+.project-card p {
+    position: relative; 
+    top: -15px; 
+    left: 15px; 
+    letter-spacing: 1px;
+}
