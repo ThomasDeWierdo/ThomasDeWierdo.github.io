@@ -30,7 +30,6 @@ p {
     margin: 0 0 15px 25px;
     border-radius: 8px;
 }
-
 .image-left {
     float: left;
     width: 40%;
@@ -51,13 +50,11 @@ p {
     display: flex;
     gap: 25px;
 }
-
 .navbar a {
     color: white;
     text-decoration: none;
     font-size: 16px;
 }
-
 .navbar a:hover {
     color: #aaaaaa;
 }
@@ -65,7 +62,6 @@ p {
 .dropdown {
     position: relative;
 }
-
 .dropdown-content {
     display: none;
     position: absolute;
@@ -79,18 +75,15 @@ p {
     border-radius: 0 0 8px 8px;
     z-index: 1000;
 }
-
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
 .dropdown-content a {
     display: block;
     padding: 10px 15px;
     color: white;
     text-decoration: none;
 }
-
 .dropdown-content a:hover {
     background-color: #444444;
 }
@@ -100,9 +93,15 @@ pre[class*="language-"] {
     border-radius: 8px !important;
 }
 
-.project {
+.project-card {
     background-color: #222222;
     border-radius: 12px;
     width: 300px;
     height: 300px;
+}
+.project-card img {
+    width: 100%; 
+    height: 80%; 
+    padding-top: 15px; 
+    object-fit: cover;
 }
