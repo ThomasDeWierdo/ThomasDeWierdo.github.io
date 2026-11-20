@@ -109,3 +109,21 @@ pre[class*="language-"] {
     font-size: 0.8em !important;
     border-radius: 8px !important;
 }
+
+.textbackground {
+    background-color: #131922;
+    border-radius: 5px;
+    outline: 5px solid #131922;
+    outline-offset: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.textbackground p {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+.textbackground p:last-child {
+    margin-bottom: 0;
+}

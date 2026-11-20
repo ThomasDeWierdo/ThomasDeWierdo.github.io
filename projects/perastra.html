@@ -25,47 +25,47 @@
     <h1>Perastra</h1>
     <h1 class="h1-backtext parallax" data-parallaxspeed=0.4>Perastra</h1>
     
-    <p>
+    <p class="textbackground">
       &emsp;Perastra is a 2d side-scroller pixelated sandbox action-adventure game that I have been working on for over 3 years now, and I have improved a lot from the challenges and systems I've created for it. The main gameplay focus is to use your creativity to come up with solutions to fight enemies and bosses, explore an alien planet, discover new resources and abilities, upgrade your weapons, maximize efficiency, and conquer whatever other challenge you may find along the way. I'm still working on this game, I haven't released it to the public, but I've managed to make tons of complex systems for it that I think shows my capability of both making ideas that can make a game stand out, and the capability to think on a larger scale than just a single system to create a larger project. This game has a few aspects to it that I've never seen in any other game that can really make this stand out in the sea of repeated indie game ideas.
     </p>
     
     <h2>Mechanical System</h2>
-    <p>
+    <p class="textbackground">
       <img src="../images/motors.gif" alt="A usage of the mechanical system to create a car" class="image-right">
       &emsp;A very important part of this game is the mechanical system. The mechanical system includes placeable objects like pistons, motors, cables, switches, and computers, and also includes an ability to place a block off of the world grid as an entity, allowing you to make things like cars and airplanes. This will also allow the player to create factories to automate the production of certain resources. I would compare this heavily to the building system in Scrap Mechanic, if you've played it before. Now alone, this isn't that crazy, other games have done things like this before (although I don't think I've ever seen it in conjunction with a Terraria-like progression), but where it gets interesting is where it combines with the brain system.
       <br>&emsp;I've only recently started working on this, and I would've had more done if I didn't have so many issues with the physics issue, so I only have pistons, cables, switches, and buttons made. However, due to my block behavior system that makes it very easy to give any functionality I want to any block, it hopefully shouldn't take too long to finish the system. I also want to add some sort of plating system to allow the player to cover up parts of a creation so they don't look as ugly as the car I made in the example.
     </p>
 
     <h2>Brain System</h2>
-    <p>
+    <p class="textbackground">
       &emsp;The brain system is what really separates this game from others. The brain system is a neural network heavily inspired by the functions of the brains of real animals. It uses things hormones like, dopamine, adrenaline, and cortisol, and is structured in a way similar to real brains, all while making sure it's performant enough to run on most computers. I am able to apply this brain system to any creature in the world, allowing it to actually adapt and learn to whatever situation it encounters. This makes fighting enemies way different than in any other game. In other games, you have to predict what the enemy will do next, while in this game, you have to know the limitations of the enemy and perform actions in a way that ensures whatever action the enemy does in it's physically limitations, it can't hit you. It will be very unique; it will almost be like all the enemies are being controlled by real people playing against you. 
       <br>&emsp;In the mechanical system, there will also be a neural computer block that allows you to implement this system into any machine you create, meaning you could possibly make a car, then have a robot-controlled turret on top that is trained to aim at any enemy it sees. This will be pretty simple to implement as the brain system only takes in and returns numbers ranging from 0 to 1, which is the exact same range the signals in the mechanical system supports. 
       <br>&emsp;This brain system is not fully done yet, however it does currently work, there are just some modifications I would like to make as a while back I learnt how reasoning and internal thoughts work and how to implement that into my system. If you're curious, you can learn more about this system <a href="brainsystem.html">here</a>.
     </p>
 
     <h2>Physics System</h2>
-    <p>
+    <p class="textbackground">
       &emsp;Another big system I had to make was a physics system. Now Unity does have its own built-in physics system, but the main issue was it would act inconsistently in certain situations and constantly creating and destroying collision objects was more expensive than I figured it had to be for my game to work. This physics system I designed to run almost entirely through the GPU, meaning if the player decides they want to create 100 machines all running independently for whatever reason, they can with hopefully little extra impact on performance by the physics engine due to how the GPU functions. You can learn more about the system and the challenges I faced <a href="physicssystem.html">here</a>.
     </p>
 
     <h2>Procedural World Generation</h2>
-    <p>
+    <p class="textbackground">
       &emsp;A useful thing I've learnt about from this project is how to create procedural world generation. I learnt how to use things line perlin and fractal noise to generate organic shapes, how to place structures on the world while making sure they never overlap, and how to make these things happen the same way every time if the same seed is provided. I particularly like the system I've made here more than others because I was able to create an interface that makes it much more straightforward to create new world generation for different biomes while not limiting the designer in any way. I explain more about how I was able to create a nice interface and what it looks like <a href="proceduralworldgenerationsystem.html">here</a>.
     </p>
 
     <h2>Tilemap and Autotiling Systems</h2>
-    <p>
+    <p class="textbackground">
       &emsp;Another feature that Unity does provide that I had to remake for performance concerns was the tilemap system. Unity's tilemap system would lag a lot when dynamically placing and removing tiles during runtime, so I made my own tilemap system instead. If you aren't sure, tilemaps display grid-based worlds by placing tiles on a world grid. Tilemaps also have autotiling features that allow tiles to dynamically change their texture to visually connect with the surrounding tiles. 
       <br>&emsp;An annoying thing that I had to do while creating new blocks is that to create a texture for an autotiling block, I would have to make 63 variants to both cover every case for possible surrounding blocks, plus extras to give some random variation with placement textures. This took a while to make and was very boring to do. The autotiling system I made now includes a bunch of different options from autotiling techniques I came up with. There was one autotiling technique that I came up with that meant I only had to make a single tile size for a texture (10x10 pixels) and have it still be able to configure itself to tile with any possible surrounding tiles. I explain more of how I accomplished these tilemap and autotiling systems <a href="tilemapsystem.html">here</a>.
     </p>
 
     <h2>Story</h2>
-    <p>
+    <p class="textbackground">
     &emsp;Another important part of this game will be the story. I've planned out a huge amount of lore and story for this game, and I plan on having every future game I make take place in the same universe as this game. The story spands back billions of years at the beginning of the universe and how it was formed and some important parts about what happened when it was formed, then goes through the first humans and civilizations and how they progressed, including a large conflict that introduces a massive political conflict that becomes relevant for tens of thousands of years, then Perastra takes place ages after that one story after an apocalypse across the universe connecting to that story from ages ago. I want to make sure each story I show, at least for the time being, is only loosely connected to that story that happened ages ago. Just through Perastra, you probably won't be able to learn much about what's really going on, but over time, players will be able to connect the dots and form theories on what is really happening. I used to be into game theory for The Legend of Zelda, so I'm trying to make a universe that gives even more of that sort of curiousity that I had with that universe.
     </p>
       
     <h2>Final Notes</h2>
-    <p>
+    <p class="textbackground">
       &emsp;There are a ton of other features and systems I've made for Perastra, such as a 'graphical world system' that gives a clean interface for sending world data to the GPU, an 'item info system' that reads data for every block through json files and stores it all in a way that's easy and quick to access, an 'entity system' that makes it easy to design and summon creatures or miscellaneous entities, and much more. Thankfully I'm nearing the point where the internal systems are done so I can actually start designing things and making the game playable.
     </p>
   </body>
