@@ -20,6 +20,7 @@ h1 {
     opacity: 0.05;
     text-shadow: 0 0 0px #72a9ff, 0 0 15px #72a9ff;
     translate: -50px -270px;
+    white-space: nowrap;
 }
 
 h2 {
