@@ -11,6 +11,16 @@ body {
 h1 {
     color: #72a9ff;
     font-size: 40px;
+    position: relative;
+}
+.h1-backtext {
+    position: absolute;
+    left: -20px;
+    top: -60px;
+    color: transparent;
+    font-size: 150px;
+    opacity: 0.05;
+    text-shadow: 0 0 5px #72a9ff, 0 0 10px #72a9ff;
 }
 
 h2 {
