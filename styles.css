@@ -21,6 +21,7 @@ h1 {
     text-shadow: 0 0 0px #72a9ff, 0 0 15px #72a9ff;
     translate: -50px -270px;
     white-space: nowrap;
+    z-index: -1000;
 }
 
 h2 {
