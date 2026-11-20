@@ -15,12 +15,11 @@ h1 {
 }
 .h1-backtext {
     position: absolute;
-    left: -20px;
-    top: -60px;
     color: transparent;
-    font-size: 150px;
+    font-size: 180px;
     opacity: 0.05;
-    text-shadow: 0 0 5px #72a9ff, 0 0 10px #72a9ff;
+    text-shadow: 0 0 0px #72a9ff, 0 0 15px #72a9ff;
+    translate: -50px -270px;
 }
 
 h2 {
