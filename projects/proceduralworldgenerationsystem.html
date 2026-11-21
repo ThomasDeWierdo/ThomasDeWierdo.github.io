@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="../styles.css">
 
     <script src="../parallax.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-csharp.min.js"></script>
   </head>
   <body>
     <nav class="navbar">
@@ -35,7 +39,7 @@
     </p>
 
     <h2>Demonstration</h2>
-    <img href="../images/worldgeneration-example.png">
+    <img href="../images/worldgeneration-example.png" style="width: 150px;">
     <p><pre><code class="language-csharp">public class OnimellowForest_WorldGen : WorldGen
 {
     static PerlinNoiseVertical1D WallCutoff = new(min: 0, max: 5, scale: 5);
@@ -102,7 +106,7 @@
 }</code></pre></p>
 
     <p class="textbackground">
-      <img src="images/PerlinExample.png" alt="A visual representation of perlin noise" class="image-right" style="width: 150px;">
+      <img src="../images/PerlinExample.png" alt="A visual representation of perlin noise" class="image-right" style="width: 150px;">
       &emsp;The image is of the Onimellow Forest, and alien biome on the planet in Perastra. The code is the code that uses the world generation API that I created. To design a biome, you first need to edit the biome system (which I won't get into much here) so that the biome is placed how you want it, then you create one of these WorldGen classes as shown above. To use this system, you need to know two basic features of how the world generation works. 
       <br>&emsp;First, you need to understand what perlin noise is and how it can be used in world generation. Perlin noise is a function that takes in a coordinate (3D, 2D, or 1D) as input, then returns a semi-random number ranging from 0 to 1. The special thing about this type of random number generator is that coordinates that are close together typically return similar values, meaning if you were to draw a 2d image of all the values you get within a range, you will see it form a smooth-flowing gradient type of texture, as shown in the image to the right. This allows you to easily create smooth flowing terrain. You can then manipulate the values however you'd like to create typically either masks or height maps to design the world. The second important feature are structures. Structures are premade objects that can be placed directly into the world. The StructurePlacer types that you can see in the code are in charge of randomly placing them onto the world within set rules. There is also a StructureGenerator class that lets you create custom generation for a structure, making it optionally behave more like a mini-biome that you can place anywhere. This custom per-structure generation allows the system to be quite flexible.
       <br>&emsp;Now, moving on to what's actually happening in the Run function of the design code. The first thing I'm doing it detecting if the block this is running on is close to the wall, with some added randomness by using noise, and if it is outside of this border, I return an out-of-bounds object. This creates a smoothly-flowing transition from the biome to the next biome over, rather than it just being a hard cutoff instead. Then, I read the surface cutoff noise to see if the current block is above the terrain height. If it is, I either set it to air, or I test if a structure can be placed there. You can see the two structures I have, where the first structure placer has 3 structures to place. Then, all I have to do to actually find if there is an overlapping block at that position that the structure wants to place is to run SurfaceForegroundStructures.FindOverlappingStructure(ctx, out mound). If this succeeds, it returns a placed structure object. All you have to do to find the object inside that structure that overlaps with the current block is first set the y position of the structure (since the structure placer is 1D and doesn't account for the y direction), and then use mound[ctx] to get the overlapping block. After this, I do a couple other pretty simple things, I hope that I've explained this well enough though that you might be able to figure out what it does on your own.

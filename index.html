@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThomasDeWierdo's Portfolio</title>
     <link rel="stylesheet" href="styles.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-csharp.min.js"></script>
   </head>
   <body>
     <nav class="navbar">
@@ -46,83 +42,5 @@
       <p><b>Misc Art</b> - Pixel art, 3d modeling </p>
       <p><b>Github</b> - Very basic knowledge on how collaborative settings work with github </p>
     </div>
-
-    <h2>World Generation System</h2>
-    <p>
-      &emsp;This system I think shows how my capability to create simple, yet versatile systems to speed up the design process without making more obscure mechanics harder to implement.
-      <br>&emsp;The world generation system is one of my newer systems, and my main goal for this was to make it as quick and simple as possible to create new biomes, and make the code required to design a biome as readable as I possible. Since it's new, I've only created one biome using it, but it has worked pretty well.
-    </p>
-    <p><details><summary>This is the code that designs the generation for the Onimellow Forest biome.</summary>
-        <pre><code class="language-csharp">public class OnimellowForest_WorldGen : WorldGen
-{
-    static PerlinNoiseVertical1D WallCutoff = new(min: 0, max: 5, scale: 5);
-    static PerlinNoiseHorizontal1D SurfaceCutoff = new(min: 5, max: 20, scale: 40);
-    static PerlinNoise2D CaveCutout = new(min: 0, max: 1, xScale: 20, yScale: 10);
-
-    static StructurePlacer1D SurfaceForegroundStructures = new(placeEveryXChunks: 10, retryCount: 30,
-        structures: new StructureOption[] {
-            new(Structures.OnimellowTree, placeChance: 0.7f, leftPadding: 1, rightPadding: 1),
-            new(Structures.ClichMound, placeChance: 0.5f, leftPadding: 1, rightPadding: 1),
-            new(Structures.Climboo, placeChance: 0.5f, leftPadding: 1, rightPadding: 1) 
-        });
-
-    static StructurePlacer1D BackgroundClichMound = new(placeEveryXChunks: 10,
-        structures: new StructureOption[] {
-            new(Structures.ClichMound, placeChance: .2f, leftPadding: 3, rightPadding: 3)
-        });
-
-    const int onimellowTreeYOffset = -3;
-    const int clichMoundYOffset = -4;
-    const int climbooYOffset = -3;
-    const int backgroundClichMoundYOffset = -7;
-
-    public override WorldGenOutput Run(in WorldGenContext ctx, WorldGenOutput output)
-    {
-        float wallCutoff = WallCutoff[ctx];
-        if (wallCutoff &gt;= GetDistanceFromBiomeLeft(ctx) || wallCutoff &gt;= GetDistanceFromBiomeRight(ctx))
-            return output.OutOfBounds();
-
-        float surfaceCutoff = SurfaceCutoff[ctx];
-        if (ctx.y &gt; surfaceCutoff)
-        {
-            output.SetIds(ItemId.Air);
-
-            if (BackgroundClichMound.FindOverlappingStructure(ctx, out var mound))
-            {
-                mound.y = Mathf.FloorToInt(Mathf.Min(SurfaceCutoff[mound.x], SurfaceCutoff[mound.xMax])) + backgroundClichMoundYOffset;
-                output.Set(mound[ctx].SwapForegroundWithBackground());
-            }
-
-            if (SurfaceForegroundStructures.FindOverlappingStructure(ctx, out mound))
-            {
-                int yOffset =
-                    mound.structure == Structures.OnimellowTree ? onimellowTreeYOffset :
-                    mound.structure == Structures.ClichMound ? clichMoundYOffset :
-                    climbooYOffset;
-                mound.y = Mathf.FloorToInt(Mathf.Min(SurfaceCutoff[mound.x], SurfaceCutoff[mound.xMax])) + yOffset;
-                output.Set(mound[ctx]);
-            }
-
-            return output;
-        }
-
-        if (ctx.y &gt; surfaceCutoff - 5)
-            return output.SetIds(ItemId.Clich);
-
-        output.frontBlock = ItemId.Murk;
-        if (CaveCutout[ctx] &gt; 0.7f)
-            output.frontBlock = ItemId.Air;
-        output.backBlock = ItemId.Murk;
-
-        return output;
-    }
-}</code></pre></details>
-    </p>
-    <p>
-      <img src="images/PerlinExample.png" alt="A visual representation of perlin noise" class="image-right" style="width: 150px;">
-      &emsp;I think the syntax that I've managed to create is pretty readable if you understand what it is trying to do. First off, if you don't know already, perlin noise is a type of function that takes in positional coordinates as input, then returns a number ranging from 0 to 1. The values are random, however, values very close together in coordinate space will return similar values. This means if you to create an image using the values returned from this function, you will get a smooth, organic pattern, which you can then manipulate to create organic world generation.
-      <br>&emsp;So, to design the Onimellow Forest, I first would create some noise and structure placer objects. The noise objects are reusable and optimized to return perlin noise values with a specified configuration. Then I also create structure placer objects, which automatically figure out the best placement of the given structures, ensuring that they don't overlap. Then, the actual Run function is called for every block that generates, where the given context (ctx) gives info on the position of the block, along with some other info. So, when it runs something like WallCutoff[ctx], it gets the noise value of that noise object at the given position. This allows me to return an out-of-bounds output if the block is outside of a noise wall, giving it a smoother transition to different biomes when it ends as an out-of-bounds output will cause it to run the code of the next overlapping biome at the position instead. 
-      <br>&emsp;Then for the structures, all you have to do is run FindOverlappingStructure on the structure placer and it will return a PlacedStructure object if it does overlap something. Since it is a 1D structure placer, it will only place along the x axis, giving you control with placing it on any y level. Then, once you set the y value, you can simply apply it to the output using output.Set(placedStructure[ctx]). If whoever is reading this isn't a programmer themselves, I'm not entirely sure how understandable this is, but I think that another programmer will appreciate the tools that I've managed to make. Now instead of spending days debugging while trying to create or modify world generation, everything is readable, and pretty straightforward, while still not limiting the designer at all.
-    </p>
   </body>
 </html>
