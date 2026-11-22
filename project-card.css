@@ -1,7 +1,7 @@
 .project-card-base {
     border-radius: 12px;
-    width: 280px;
-    height: 280px;
+    width: 300px;
+    height: 300px;
     position: relative;
     box-shadow: 0 0 30px #1c293c;
 }
@@ -15,9 +15,9 @@
 }
 .project-card-title {
     position: relative; 
-    top: -52px; 
+    top: -54px; 
     left: 11px; 
-    font-size: 17px;
+    font-size: 18px;
     letter-spacing: 2px;
     color: #ffffffaa;
     font-weight: 500;
@@ -26,16 +26,16 @@
 .project-card-category {
     text-align: right;
     position: relative;
-    top: -52px; 
+    top: -54px; 
     right: 10px; 
-    font-size: 17px;
+    font-size: 18px;
     letter-spacing: 2px;
     color: #a8caff47;
     font-weight: 500;
     transition: top 0.5s ease
 }
 .project-card-description {
-    font-size: 9px;
+    font-size: 10px;
     position: relative;
     top: 40px;
     padding-left: 10px;
@@ -88,9 +88,9 @@
     opacity: 0.2;
 }
 .project-card-base:hover .project-card-title, .project-card-base:hover .project-card-category {
-    top: -90px;
+    top: -92px;
 }
 .project-card-base:hover .project-card-description {
-    top: 4px;
+    top: 2px;
     color: #ffffffaa;
 }
