@@ -49,6 +49,13 @@ p {
     margin: 0 0 15px 25px;
     border-radius: 8px;
 }
+.image-display {
+    width: 40%;
+    max-width: 450px;
+    border-radius: 8px;
+    outline: 10px solid #131922;
+    outline-offset: 5px;
+}
 
 .navbar {
     position: sticky;
