@@ -136,3 +136,29 @@ pre[class*="language-"] {
 .textbackground p:last-child {
     margin-bottom: 0;
 }
+
+.divider {
+    font-weight: bold;
+    color: #313e54;
+    text-align: center;
+}
+.divider::before {
+    content: "";
+    position: absolute;
+    background-color: #1f2939;
+    width: 90%;
+    height: 1px;
+    left: 5%;
+    translate: 0 13px;
+    z-index: -2;
+}
+.divider::after {
+    content: "";
+    position: absolute;
+    background-color: #0d1117;
+    width: 40%;
+    height: 2px;
+    left: 30%;
+    translate: 0 12.4px;
+    z-index: -1;
+}
