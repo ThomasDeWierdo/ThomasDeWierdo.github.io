@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThomasDeWierdo's Portfolio</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <script src="../parallax.js"></script>
+  </head>
+    <body>
+    <nav class="navbar">
+      <a href="../index.html">Home</a>
+      <div class="dropdown">
+        <a href="../projects.html">Projects</a>
+        <div class="dropdown-content">
+          <a href="perastra.html">Perastra</a>
+          <a href="repomod.html">Mod for REPO</a>
+          <a href="brainsystem.html">Brain System</a>
+          <a href="proceduralworldgenerationsystem.html">Procedural World Generation System</a>
+        </div>
+      </div>
+    </nav>
+
+    <h1>Physics System</h1>
+    <h1 class="h1-backtext parallax" data-parallaxspeed=0.4>Physics System</h1>
+    
+    <p>
+      &emsp;This system shows my capability of creating complex systems and shows experience with HLSL and compute shaders.
+    </p>
+
+    <h2>Overview</h2>
+    <p class="textbackground">
+      &emsp;A while back early on in development for my main project, Perastra, I had an issue where Unity's built-in physics engine wasn't quite what I needed for the game. There were often some issues with how objects would move with the system, and more importantly, manually creating collision objects and placing them in the world was pretty inefficient. For this reason, I decided to make my own physics engine. The first physics engine I made ran on the CPU, but it was very poorly optimized. When I started working on the mechanical system, that optimization issue was much more obvious, as you could create any object with a more complex collision shape using this mechanical system. I decided to remake it, but this time I decided that making it run mostly on the GPU could give huge performance benefits, especially if the player decides to do something crazy like make an army of 100 robots. Because the GPU runs in parallel, running the physics on 100 robots takes a similar length of time to just running 1.
+    </p>
+
+    <h2>Technical Deep-dive</h2>
+    <p class="textbackground">
+      &emsp;There were quite a few challenges when it comes to making this physics system, mainly because it's being ran on the GPU, there are some awkward challenges to fix.
+      <br>&emsp;First, whenever a new physics instance is created, it is added to a buffer. It finds a slot that is available in the buffer, and if the buffer is full, it doubles the size of the buffer (which is expensive, but this operation is done very infrequently that it doesn't matter). It also stored the index it is stored in the buffer, that way the CPU can read data that the GPU writes to a buffer. 
+      <br>&emsp;Then, every physics update, it first tests if other code had modified any values on any of the physics objects (such as position or velocity), and if so, it will send updates of those values to the GPU data. Then it dispatches 5 compute shaders, all in charge of different steps. 
+      <br>&emsp;The first shader runs on every line of the collisions of every active physics object and resets a line contacts buffer, which is data set by the GPU and used by the CPU to gain contact info for each edge of the collision on the object. I was able to use the line contacts to add jumping for the player, as it allows me to detect when the player's feet are colliding with the ground.
+      <br>&emsp;The second shader runs on every physics object and does some initialization. It is in charge of applying gravity, and also a few other more technical things that I won't get into.
+      <br>&emsp;The third shader runs on every physics object, and for each physics object, it finds which other physics objects are colliding with it (not including the world's collision). For each contact point it finds, it does a bunch of math to figure out velocity, angular velocity, and positional correction changes to the object. However, it's not as simple as just adding the velocities to the object. Since multiple threads could be interacting with the same object, I have to do something to be able to process all the contact points with a fixed amount of data to write to. The first method I did to solve this was to use InterlockedMin and InterlockedMax functions to write the largest impulses found. For example, if there were two contact points found where one of them provides an impulse of (0.5, 2), while the other only applies (1, 1), then the resulting impulse will be max of both the x and y values (1, 2). This also applies in the opposite direction for negative values using minimum functions instead. However, this strategy seemed to produce inconsistent results. My second strategy was to instead find the average point of contact between all the contact points, each contact weighted by how much velocity that would be added if it interacted with the object. Then after those threads have ran, I run the velocity calculations on this single contact point. This also produced inconsistent results, however, I noticed that with the older strategy, angular velocity would actually be calculated properly, while with this newer strategy, positional velocity would be calculated correctly. This led me to implementing both strategies, applying the first strategy to only angular velocity and the second strategy to positional velocity, and it worked extremely well, way better than you'd expect for seeming like such an odd implementation. 
+      <br>&emsp;Then the fourth shader worked just like the third shader, except it was in charge of the calculations with the world. I wanted to avoid manually creating collisions for each individual chunk on the world as that could cause lag, and if I prevented lag by generating collisions asynchronously, objects could phase through the ground if it took too long to load. What I did for this was create a graphical world system, which is a pretty neat system and also general-use, meaning I can use it for other GPU systems, such as a future reform to the lighting system (this would be a huge benefit to that since I made that lighting system very early on in development and it is horrible and the main source of lag). What this graphical world system does is create a GPU-side buffer containing all the data of the chunks in the world. How it works is from the CPU, you can run GraphicalWorld.Allocate(chunkPosition), which will allocate the chunk data if it doesn't exist and return the index of where that data was stored in the buffer. Then you can send this index to the shader, and that shader can access the global data provided by the system and insert the index to get the current data of that chunk of the world. This data can include the block ids in the chunk, but also the current block state and other info of the blocks. And the system will make sure to only load the data that you tell it to, so if you want to only access the foreground ids of the chunk, you can do something like this: GraphicalWorld.Allocate(chunkPosition, Include.ForegroundIds). It will also not allocate the same chunk multiple times by just returning the index of the already-existing chunk if it is already allocated. All you have to do is make sure you deallocate the allocation when you're done with it.
+      <br>&emsp;Moving on, the fifth and final shader reads the data written by the third and fourth shader and actually modifies the velocity and angular velocity values. There is quite a bit going on in this shader, but the main idea is simple.
+      <br>&emsp;That is essentially all that happens in the physics system, plus just a small applying section in the CPU after the shaders run. There is a lot more technical things happening that I'm just not going to get into because that will take ages. There is also an optimization issue in what I described to you that I just haven't had a reason to fix yet, being that instead of maximizing the GPU's parralelism in the object and world collision shaders, I'm instead doing something where each thread is in charge a pair of two physics objects, meaning if there are 3 physics objects, the threads will look something like (0 to 1), (0 to 2), (1 to 0), (1 to 2), (2 to 0), and (2 to 1). The problem with this is that in every thread, I have to iterate over every line of the first object, then for every one of those iterations I have to iterate over every line of the other object, resulting in an O(n^2) performance, plus I think that sort of code causes diversion in GPU threads if you know what that means. This doesn't matter much if there's a small amount of lines in the collisions, but if you're dealing with objects with high line counts, it may start causing lag, however in my tests I've never had any performance issues from complicated objects, so I just haven't fixed it yet, but I definitely will if I ever need a performance update.
+    </p>
+  </body>
+</html>
